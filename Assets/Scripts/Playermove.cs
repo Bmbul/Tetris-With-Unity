@@ -42,14 +42,15 @@ public class Playermove : MonoBehaviour
             foreach (var block in blocks)
             {
                 if ((int)Mathf.Round(block.position.y) <= GameManager.Instance.verticalMin - 1 ||
-                    GameManager.Instance.blocksTable[(int)Mathf.Round(block.position.y), (int)Mathf.Round(block.position.x)] != null)
+                    ManageRows.Instance.blocksTable[(int)Mathf.Round(block.position.y), (int)Mathf.Round(block.position.x)] != null)
                 {
                     enabled = false;
                     transform.Translate(Vector2.up);
                     RegistertheBlocks();
-                    GameManager.Instance.CheckFilledRow();
+                    ManageRows.Instance.CheckFilledRow();
                     if (GameManager.Instance.CheckForLose()) 
                     {
+                        GameManager.Instance.SetHighScore();
                         UiManager.Instance.YouLoseDisplay();
                         Time.timeScale = 0;
                     }
@@ -70,14 +71,14 @@ public class Playermove : MonoBehaviour
             {
                 if ((int)Mathf.Round(block.position.x) < GameManager.Instance.horizontalMin ||
                     (int)Mathf.Round(block.position.x) > GameManager.Instance.horizontalMax - 1 ||
-                    GameManager.Instance.blocksTable[(int)Mathf.Round(block.position.y), (int)Mathf.Round(block.position.x + 1)] != null)
+                    ManageRows.Instance.blocksTable[(int)Mathf.Round(block.position.y), (int)Mathf.Round(block.position.x + 1)] != null)
                     return false;
             }
             else
             { 
                 if((int)Mathf.Round(block.position.x) < GameManager.Instance.horizontalMin + 1 ||
                     (int)Mathf.Round(block.position.x) > GameManager.Instance.horizontalMax ||
-                    GameManager.Instance.blocksTable[(int)Mathf.Round(block.position.y), (int)Mathf.Round(block.position.x) - 1] != null)
+                    ManageRows.Instance.blocksTable[(int)Mathf.Round(block.position.y), (int)Mathf.Round(block.position.x) - 1] != null)
                 return false;
             }
         }
@@ -93,7 +94,7 @@ public class Playermove : MonoBehaviour
             if(block.position.x < GameManager.Instance.horizontalMin ||
                     block.position.x > GameManager.Instance.horizontalMax || 
                     block.position.y < GameManager.Instance.verticalMin ||
-                    GameManager.Instance.blocksTable[(int)Mathf.Round(block.position.y),(int) Mathf.Round(block.position.x)] != null)
+                    ManageRows.Instance.blocksTable[(int)Mathf.Round(block.position.y),(int) Mathf.Round(block.position.x)] != null)
             {
                 rotationAxis.Rotate(Vector3.forward * -90);
                 break;
@@ -105,7 +106,7 @@ public class Playermove : MonoBehaviour
     {
         foreach(var block in blocks)
         {
-            GameManager.Instance.RegisterBlock(block);
+            ManageRows.Instance.RegisterBlock(block);
         }
     }
     
