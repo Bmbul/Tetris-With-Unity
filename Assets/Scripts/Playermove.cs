@@ -34,9 +34,8 @@ public class Playermove : MonoBehaviour
         {
             CheckforRotation();
         }
-
         timer = timer + Time.deltaTime;
-        if (timer >= GameManager.Instance.waitTime)
+        if (timer >= 1/GameManager.Instance.gameSpeed)
         {
             transform.Translate(Vector2.down);
             foreach (var block in blocks)
@@ -46,6 +45,7 @@ public class Playermove : MonoBehaviour
                 {
                     enabled = false;
                     transform.Translate(Vector2.up);
+                    AudioManager.Instance.HitGroundSound();
                     RegistertheBlocks();
                     ManageRows.Instance.CheckFilledRow();
                     if (GameManager.Instance.CheckForLose()) 
@@ -82,6 +82,7 @@ public class Playermove : MonoBehaviour
                 return false;
             }
         }
+        AudioManager.Instance.PlayRotationSound();
         return true;
     }
 
@@ -100,6 +101,7 @@ public class Playermove : MonoBehaviour
                 break;
             }
         }
+        AudioManager.Instance.PlayRotationSound();
     }
 
     void RegistertheBlocks()
@@ -109,10 +111,9 @@ public class Playermove : MonoBehaviour
             ManageRows.Instance.RegisterBlock(block);
         }
     }
-    
-    public void GiveRandomRotation()
+
+    public void GiveRandomRotation(int randNumber)
     {
-        int randNumber = Random.Range(0, 4);
-        rotationAxis.Rotate(randNumber*Vector3.forward* 90);
+        rotationAxis.Rotate(randNumber * Vector3.forward * 90);
     }
 }

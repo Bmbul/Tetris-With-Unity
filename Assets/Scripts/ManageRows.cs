@@ -26,6 +26,7 @@ public class ManageRows : MonoBehaviour
     {
         int filledblocks;
         int rowCompleted = 0;
+
         for (int i = 0; i < 20; i++)
         {
             filledblocks = 0;
@@ -40,6 +41,7 @@ public class ManageRows : MonoBehaviour
                 BringDowm(i + 1);
                 rowCompleted++;
                 i--;
+                AudioManager.Instance.PlayRowFilled();
             }
         }
         GameManager.Instance.OnRowComplete(rowCompleted);
